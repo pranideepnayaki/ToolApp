@@ -1,28 +1,27 @@
-# ToolApp - GIS Tool Tracking System
+# ToolApp - Tool Tracking Web Application
 
 ## Overview
-
-**ToolApp** is a Geographic Information System (GIS) application designed to efficiently track tools and monitor their usage across different users and locations. Organizations can manage tool inventory, assign tools to users, track real-time locations, and generate comprehensive usage reports through an intuitive web interface powered by modern mapping technologies.
+**ToolApp** is a Flask-based web application designed to track tools and work activities across construction sites. The application provides interactive mapping capabilities to visualize active work locations where tools are currently being used by employees, along with reporting and analytics features for work efficiency monitoring.
 
 ---
 
 ## Features
+- **Interactive Mapping:** Folium-based maps showing active work locations where tools are currently in use
+- **Work Process Tracking:** Monitor which employees are using which tools with start/end times and duration calculations
+- **Analytics & Reporting:** Plotly-powered charts and reports for work efficiency analysis
+- **Employee Management:** View employee information and work assignments
+- **Tool Inventory:** Display tool information and current status (read-only)
+- **Responsive Design:** Bootstrap-based web interface
 
-**GIS Integration:** Interactive maps with real-time tool location tracking and geofencing capabilities.
+---
 
-**Tool Management:** Complete tool registry with check-in/check-out system and status monitoring.
-
-**User Management:** Secure authentication with role-based access control and activity logging.
-
-**Location Tracking:** Real-time GPS tracking with movement history and geofenced zones.
-
-**Analytics Dashboard:** Usage statistics, custom reports, and data visualization charts.
-
-**Mobile Support:** Responsive design with QR code scanning for quick tool identification.
-
-**Maintenance Scheduling:** Automated reminders and maintenance tracking system.
-
-**Offline Capability:** Limited functionality available without internet connection.
+## Technology Stack
+- **Backend:** Python Flask with SQLAlchemy ORM
+- **Database:** Microsoft SQL Server (Azure hosted)
+- **Frontend:** Server-side rendered Jinja2 templates with Bootstrap
+- **Mapping:** Folium for interactive maps
+- **Data Visualization:** Plotly for charts and analytics
+- **Data Processing:** Pandas for database-to-web integration
 
 ---
 
@@ -30,103 +29,108 @@
 
 1. **Clone the Repository:**
 ```bash
-git clone https://github.com/knurlybekov/ToolApp.git
-cd ToolApp
+git clone https://github.com/pranideepnayaki/ToolApp.git
+cd ToolApp-main
 ```
 
-2. **Install Dependencies:**
+2. **Install Python Dependencies:**
 ```bash
-npm install
+pip install flask flask-sqlalchemy flask-login flask-socketio pandas pyodbc folium plotly matplotlib flask-paginate apscheduler
 ```
 
-3. **Database Setup:**
-   * Install PostgreSQL with PostGIS extension
-   * Create database and run migrations
-   * Configure environment variables in `.env`
+3. **Database Configuration:**
+   - The application is configured to connect to Azure SQL Server
+   - Update database credentials in `__init__.py` and `dbConn.py` with your connection details
+   - Ensure you have the appropriate ODBC drivers installed
 
-4. **API Configuration:**
-   * Add your mapping service API keys to `/src/config/maps.js`
-   * Configure database connection in `/src/config/database.js`
-
-5. **Start the Application:**
+4. **Start the Application:**
 ```bash
-npm run dev
+python app.py
 ```
 
 ---
 
-## Available Components
+## Application Structure
 
-### Dashboard
-* Overview of tool inventory and usage statistics
-* Real-time alerts and notifications
-* Quick access to frequently used features
+### Core Components
 
-### ToolsList
-* Displays all tools with current status and location
-* **Add Tool** button to show ToolForm
-* Filter and search functionality for tool discovery
-* Bulk operations for multiple tool management
+**Authentication System:**
+- User login/logout functionality
+- Flask-Login integration for session management
+- Employee-based authentication
 
-### ToolForm
-* Add or edit tool details (Name, Category, Specifications, Location)
-* QR code generation for new tools
-* Pre-fills fields during edit operations
+**Dashboard:**
+- Interactive Folium map showing active work locations
+- Real-time display of tools currently in use
+- Work area visualization with colored polygons
 
-### MapView
-* Interactive map showing real-time tool locations
-* Geofencing zones with customizable boundaries
-* Tool clustering for better visualization
-* Location history tracking and playback
+**Reporting:**
+- Work efficiency analytics with time consumption vs. required time
+- Bar charts and box plots for performance analysis
+- Paginated data tables with filtering
 
-### UserManagement
-* User registration and profile management
-* Role assignment and permission control
-* Activity logs and usage statistics per user
-
-### ReportsPanel
-* Generate custom reports based on various parameters
-* Export data in multiple formats (PDF, CSV, Excel)
-* Usage analytics and trend visualization
+**Data Management:**
+- Employee information display
+- Tool inventory viewing
+- Work process tracking and history
 
 ---
 
-## Test Cases
+## Current Limitations
 
-**Dashboard:** Displays tool inventory summary with real-time status updates.
-
-**Add Tool:** ToolForm appears with required fields (Name, Category, Location, QR Code generation).
-
-**Check-out Tool:** User selection updates tool status and assigns to selected user.
-
-**Map Integration:** Tools display on interactive map with accurate GPS coordinates.
-
-**Search Functionality:** Filter tools by name, category, status, or assigned user.
-
-**Role-based Access:** Different features available based on user permissions (Admin, Manager, Worker).
+This is a prototype application with the following limitations:
+- **Read-only data management:** No create/edit functionality for tools or employees
+- **Basic spatial operations:** Limited to coordinate display, no advanced GIS functions
+- **Hardcoded credentials:** Database connection details are embedded in source code
+- **No migration system:** Database schema management not implemented
+- **Mixed database approaches:** Uses both SQLAlchemy ORM and raw SQL queries
 
 ---
 
-## Libraries Used
+## Database Schema
 
-**Frontend:** React.js, Leaflet/Google Maps API, Chart.js, Material-UI
+The application works with the following main tables:
+- **employees:** User information and authentication
+- **tools:** Tool inventory with location coordinates
+- **work_process:** Work activity tracking with start/end times
+- **side:** Work area definitions with boundary coordinates
+- **work_list:** Work templates and time requirements
 
-**Backend:** Node.js/Express, PostgreSQL with PostGIS, JWT Authentication
+---
 
-**Real-time:** Socket.io for live location updates
+## Usage Example
 
-**Mobile:** React Native for mobile application
+1. **Login:** Use credentials from the employee database
+2. **View Dashboard:** See interactive map with active work locations
+3. **Access Reports:** Navigate to analytics for work efficiency charts
+4. **Filter Data:** Use dropdown menus to filter by work areas
+
+---
+
+## Development Notes
+
+This application demonstrates:
+- Flask web framework implementation
+- Pandas integration for data processing
+- Interactive mapping with Folium
+- Data visualization with Plotly
+- Basic authentication and session management
+
+**Areas for Production Enhancement:**
+- Implement proper configuration management
+- Add comprehensive CRUD operations
+- Enhance security (password hashing, CSRF protection)
+- Add proper database migrations
+- Implement advanced spatial analysis capabilities
 
 ---
 
 ## Contributing
-
-Contributions are welcome! Fork the repository, create a feature branch, and submit a pull request with detailed description of changes.
+Contributions are welcome! Please feel free to submit issues and enhancement requests.
 
 ## Contact
-
 For queries or feedback: **n.pranideepreddy1999@gmail.com**
 
 ---
 
-Efficiently manage your tools and optimize resource utilization with **ToolApp**! 🛠️
+*A Flask-based tool tracking application with mapping and analytics capabilities* 🛠️
